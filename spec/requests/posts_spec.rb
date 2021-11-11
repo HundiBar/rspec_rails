@@ -13,20 +13,32 @@
 # sticking to rails and rspec-rails APIs to keep things simple and stable.
 
 RSpec.describe "/posts", type: :request do
-  
+
   # Post. As you add validations to Post, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
-  }
+  current_user = User.first_or_create!(email: 'dean@example.com', password: 'password', password_confirmation: 'password')
 
-  let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
-  }
+  let(:valid_attributes) do
+    {
+    'id' => '1',
+    'title' => 'Test',
+    'body' => '12345'
+    }
+  end
+
+  let(:invalid_attributes) do
+    {
+      'id' => 'a',
+      'title' => '1',
+      'body' => '1234'
+    }
+  end
 
   describe "GET /index" do
     it "renders a successful response" do
-      Post.create! valid_attributes
+      post = Post.new(valid_attributes)
+      post.user = current_user
+      post.save
       get posts_url
       expect(response).to be_successful
     end
