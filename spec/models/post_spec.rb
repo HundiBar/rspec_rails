@@ -43,7 +43,35 @@ RSpec.describe Post, type: :model do
 
   end
 
-  it 'has a body between 5 and 100 chars' do
+  it 'has a body 5 chars or more' do
+    post = Post.new(
+      title: 'Valid title',
+      body: '',
+      user: current_user,
+      views: 0
+    )
+    expect(post).to_not be_valid
+
+    post.body = 'fives'
+    expect(post).to be_valid
+
+  end
+
+  it 'has a body of at most 100 chars' do
+    hundred_chars_string = '1PhYXQyGLJ1pnK7f16zWnXDiEdNyvCf717fx0qK26Ha9KauczpvjLDGDhNHOeHXiSpCUmZcd8ErXRVSeFV3NQkpVdCfcskIUFmlk'
+    post = Post.new(
+      title: 'valid title',
+      body: '',
+      user: current_user,
+      views: 0
+    )
+    expect(post).to_not be_valid
+
+    post.body = hundred_chars_string
+    expect(post).to be_valid
+
+    post.body = hundred_chars_string + "1"
+    expect(post).to_not be_valid
 
   end
 
