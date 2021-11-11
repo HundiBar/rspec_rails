@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Post, type: :model do
-  current_user = User.find_or_create!(email: 'dean@example.com', password: 'password', password_confirmation: 'password')
+  current_user = User.first_or_create!(email: 'dean@example.com', password: 'password', password_confirmation: 'password')
   it 'has a title' do
     post = Post.new(
       title: '',
